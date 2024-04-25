@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: space-evenly;
+        overflow-x: hidden;
+        position: relative;
+        background-color: #3d49f7;
+        margin: 0;
+    }
+
+    .blob-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .blob {
+        position: absolute;
+        top: -20%;
+        left: -20%;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle, #4b134f 0%, #ff007e 25%, #0000ff 100%);
+        animation: move-blob 20s linear infinite;
+        border-radius: 50%;
+        z-index: -1;
+    }
+
+    @keyframes move-blob {
+        0% {
+            transform: translate(0, 0);
+        }
+        50% {
+            transform: translate(50%, 50%);
+        }
+        100% {
+            transform: translate(0, 0);
+        }
+    }
+
+    .navbar {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .navbar ul {
+        list-style: none;
+        display: flex;
+    }
+
+    .navbar ul li {
+        margin-right: 20px;
+    }
+
+    .navbar ul li a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .content {
+        flex: 1;
+        padding: 1rem;
+        min-height: 0; 
+        overflow-y: auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .icon {
+height: 3.5vh;
+margin-right: 3px;
+transition: transform 0.3s ease;
+}
+
+.icon:hover {
+transform: scale(1.2);
+}
+
+    .products {
+        color: white;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+        margin-top: 40px;
+        padding: 1rem;
+        min-height: 0;
+        overflow: auto; 
+    }
+    .card {
+background-color: #333;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+width: calc(33.33% - 20px); 
+margin-bottom: 20px;
+transition: transform 0.3s ease;
+}
+
+.card:hover {
+transform: scale(1.05);
+}
+
+
+    .card img {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .card h4 {
+        margin-top: 10px;
+        font-size: 18px;
+        color: #fff;
+    }
+
+    .card span {
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .card button {
+        padding: 8px 16px;
+        background-color: #1089a7;
+        color: #090909;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .card button:hover {
+        background-color: #0a6e7c;
+    }
+    
+header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.profile-container {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) minmax(300px, 2fr); /* Adjusted column widths */
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.profile-section {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-picture img {
+    max-width: 100%;
+    height: auto;
+}
+
+.posts {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.posts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.posts-header h2 {
+    margin: 0;
+}
+
+.posts-header button {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.posts-header button:hover {
+    background-color: #555;
+}
+
+.post-container {
+    max-height: calc(100% - 70px);  
+}
+
+.post {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.post img {
+    max-width: 100%;
+    height: auto;
+}
+
+.post-content {
+    margin-top: 10px;
+}
+
+.post-content p {
+    margin: 0;
+}
+
+.activity-item {
+    margin-bottom: 10px;
+}
+
+.activity-item:last-child {
+    margin-bottom: 0;
+}
+
+    </style>
+</head>
+<body>
+    <div class="blob-container">
+        <div class="blob"></div>
+    </div>
+
+    <div class="navbar">
+        <h1>ConnecShop</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html"><img src="icons/home.png" class="icon"></a></li>
+                <li><a href="search.html"><img src="icons/search.png" class="icon"></a></li>
+                <li><a href="cart.html"><img src="icons/cart.png" class="icon"></a></li>
+                <li><a href="msgs.html"><img src="icons/chat.png" class="icon"></a></li>
+                <li><a href="profile.html"><img src="icons/user.png" class="icon"></a></li>
+                <li><a href="Login.html"><img src="icons/logout.png" class="icon"></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content">
+
+    <div class="profile-container">
+        <div class="profile-picture">
+            <img src="profile-image.jpg" alt="Profile Image">
+        </div>
+        <div class="account-details">
+            <h2>Account Details</h2>
+            <p>Name: Satvik Kumar</p>
+            <p>Username: @satvikkumar</p>
+            <p>Location: India</p>  
+            <p>Bio: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="activities">
+            <h2>Activities</h2>
+            <p>Posts: 10</p>
+            <p>Followers: 100</p>
+            <p>Following: 50</p>
+            <p>Likes: 500</p>
+            <p>Comments: 200</p>
+        </div>
+        <div class="posts">
+            <h2>Posts</h2>
+            <div class="post-container">
+                <!-- User's posts will be dynamically added here using JavaScript -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script >
+const userPosts = [
+    { image: 'https://c0.wallpaperflare.com/preview/710/370/509/apple-apple-products-product-iphone.jpg', caption: 'Apple products for sale' },
+    { image: 'post2.jpg', caption: 'Caption for Post 2' },
+    { image: 'post3.jpg', caption: 'Caption for Post 3' },
+    { image: 'post4.jpg', caption: 'Caption for Post 4' },
+    { image: 'post5.jpg', caption: 'Caption for Post 5' },
+    { image: 'post6.jpg', caption: 'Caption for Post 6' },
+    { image: 'post7.jpg', caption: 'Caption for Post 7' },
+    { image: 'post8.jpg', caption: 'Caption for Post 8' },
+    { image: 'post9.jpg', caption: 'Caption for Post 9' },
+];
+function displayUserPosts() {
+    const postsContainer = document.querySelector('.post-container');
+    
+    userPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+
+        const imageElement = document.createElement('img');
+        imageElement.src = post.image;
+        imageElement.alt = 'Post Image';
+
+        const captionElement = document.createElement('p');
+        captionElement.textContent = post.caption;
+
+        postElement.appendChild(imageElement);
+        postElement.appendChild(captionElement);
+        postsContainer.appendChild(postElement);
+    });
+}
+displayUserPosts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: space-evenly;
+            overflow-x: hidden;
+            position: relative;
+            background-color: #3d49f7;
+            margin: 0;
+        }
+
+        .blob-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, #4b134f 0%, #ff007e 25%, #0000ff 100%);
+            animation: move-blob 20s linear infinite;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @keyframes move-blob {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(50%, 50%);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .content {
+            flex: 1;
+            padding: 1rem;
+            min-height: 0; /* Ensure content can shrink */
+            overflow-y: auto; /* Allow content to scroll if needed */
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon {
+    height: 3.5vh;
+    margin-right: 3px;
+    transition: transform 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.2);
+}
+
+        .products {
+            color: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 40px;
+            padding: 1rem;
+            min-height: 0; /* Ensure content can shrink */
+            overflow: auto; /* Allow content to scroll if needed */
+        }
+        .card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: calc(33.33% - 20px); /* Adjust as needed */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+
+        .card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .card h4 {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .card span {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .card button {
+            padding: 8px 16px;
+            background-color: #1089a7;
+            color: #090909;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #0a6e7c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blob-container">
+        <div class="blob"></div>
+    </div>
+
+    <div class="navbar">
+        <h1>ConnecShop</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html"><img src="icons/home.png" class="icon"></a></li>
+                <li><a href="search.html"><img src="icons/search.png" class="icon"></a></li>
+                <li><a href="cart.html"><img src="icons/cart.png" class="icon"></a></li>
+                <li><a href="msgs.html"><img src="icons/chat.png" class="icon"></a></li>
+                <li><a href="profile.html"><img src="icons/user.png" class="icon"></a></li>
+                <li><a href="Login.html"><img src="icons/logout.png" class="icon"></a></li>
+            </ul>
+        </nav>
+    </div>
+    </div>
+        <!-- Main Content -->
+        <div class="content">
+    <div id="messages"></div>
+    <input id="m" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        function sendMessage() {
+            const messageInput = document.getElementById('m');
+            const message = messageInput.value.trim();
+            if (message !== '') {
+                socket.emit('chat message', message);
+                messageInput.value = '';
+            }
+        }
+
+        socket.on('chat message', (msg) => {
+            const messagesDiv = document.getElementById('messages');
+            const messageElement = document.createElement('p');
+            messageElement.textContent = msg;
+            messagesDiv.appendChild(messageElement);
+        });
+    </script>
+    </div>
+</body>
+</html>

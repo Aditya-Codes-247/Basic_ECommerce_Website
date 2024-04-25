@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Fusion Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: space-evenly;
+            overflow-x: hidden;
+            position: relative;
+            background-color: #3d49f7;
+            margin: 0;
+        }
+
+        .blob-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, #4b134f 0%, #ff007e 25%, #0000ff 100%);
+            animation: move-blob 20s linear infinite;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        @keyframes move-blob {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(50%, 50%);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin-right: 20px;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .content {
+            flex: 1;
+            padding: 1rem;
+            min-height: 0; /* Ensure content can shrink */
+            overflow-y: auto; /* Allow content to scroll if needed */
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon {
+    height: 3.5vh;
+    margin-right: 3px;
+    transition: transform 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.2);
+}
+
+        .products {
+            color: white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 40px;
+            padding: 1rem;
+            min-height: 0; /* Ensure content can shrink */
+            overflow: auto; /* Allow content to scroll if needed */
+        }
+        .card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: calc(33.33% - 20px); /* Adjust as needed */
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+
+        .card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .card h4 {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .card span {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .card button {
+            padding: 8px 16px;
+            background-color: #1089a7;
+            color: #090909;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover {
+            background-color: #0a6e7c;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="blob-container">
+        <div class="blob"></div>
+    </div>
+
+    <div class="navbar">
+        <h1>ConnecShop</h1>
+        <nav>
+            <ul>
+                <li><a href="home.html"><img src="icons/home.png" class="icon"></a></li>
+                <li><a href="search.html"><img src="icons/search.png" class="icon"></a></li>
+                <li><a href="cart.html"><img src="icons/cart.png" class="icon"></a></li>
+                <li><a href="msgs.html"><img src="icons/chat.png" class="icon"></a></li>
+                <li><a href="profile.html"><img src="icons/user.png" class="icon"></a></li>
+                <li><a href="Login.html"><img src="icons/logout.png" class="icon"></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content">
+        <section class="products">
+            <h2>Featured Products</h2>
+            <!-- Product cards will be appended here -->
+        </section>
+    </div>
+
+    <script>
+ 
+        // Function to handle adding a product to the cart
+function addToCart(product) {
+    // Retrieve cart items from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // Add the product to the cart
+    cart.push(product);
+    // Update localStorage with the updated cart
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Function to handle the "Add to Cart" button click event
+function handleAddToCartClick(productId) {
+    // Retrieve product information based on the productId
+    const product = getProductById(productId);
+    
+    // Add the product to the cart
+    addToCart(product);
+    
+    // Redirect to the cart page
+    window.location.href = 'cart.html';
+}
+
+// Function to get product by ID (mock implementation)
+function getProductById(productId) {
+    // This is a mock implementation, replace it with actual logic to fetch product data
+    const products = [
+        {
+            id: 1,
+            title: 'Product 1',
+            price: 10.99,
+            image: 'product1.jpg',
+            category: 'Category A'
+        },
+        {
+            id: 2,
+            title: 'Product 2',
+            price: 19.99,
+            image: 'product2.jpg',
+            category: 'Category B'
+        },
+        // Add more products as needed
+    ];
+
+    return products.find(product => product.id === productId);
+}
+
+// Function to render product cards on the home page
+function renderProductCards(products) {
+    const productsContainer = document.querySelector('.products');
+    let productsHTML = '';
+    products.forEach(product => {
+        productsHTML += `
+            <div class="card">
+                <img src="${product.image}" alt="${product.title}">
+                <h4>${product.title}</h4>
+                <h4>${product.category}</h4>
+                <div class="action">
+                    <span>${product.price}$</span>
+                    <button onclick="handleAddToCartClick(${product.id})">Add to Cart</button>
+                </div>
+            </div>
+        `;
+    });
+    productsContainer.innerHTML = productsHTML;
+}
+
+// Function to fetch products from the API and render product cards on the home page
+async function fetchAndRenderProducts() {
+    try {
+        const response = await fetch('https://fakestoreapi.com/products');
+        const products = await response.json();
+        renderProductCards(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+    }
+}
+
+// Fetch and render products when the DOM content is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRenderProducts();
+});
+
+    </script>
+</body>
+</html>
