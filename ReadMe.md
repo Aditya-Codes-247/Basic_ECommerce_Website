@@ -1,6 +1,6 @@
 # Made by Devansh Shah(22BCE068) and Aditya Pandey(22BCM005)
 
-Steps to Run the code:
+Steps to run the code:
 
 1. Download/Clone the folder
 2. Open the terminal
